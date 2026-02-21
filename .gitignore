@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Model artifacts
+model.pkl
+*.pkl
