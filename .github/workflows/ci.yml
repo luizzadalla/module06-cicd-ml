@@ -23,13 +23,38 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Unit Tests
-        run: |
-          pytest -q
+        run: pytest -q
 
       - name: Train Model
-        run: |
-          python train.py
+        run: python train.py
 
       - name: Performance Gate
+        run: python check_performance.py
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
         run: |
-          python check_performance.py
+          pip install -r requirements.txt
+
+      - name: Re-train model for deployment
+        run: python train.py
+
+      - name: Upload model artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployed-model
+          path: model.pkl
+
+      - name: Deploy to Staging (Demo)
+        run: echo "Model deployed successfully to staging environment"
