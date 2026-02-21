@@ -2,7 +2,7 @@ import subprocess
 import sys
 import re
 
-THRESHOLD = 0.70
+THRESHOLD = 0.99
 
 out = subprocess.check_output([sys.executable, "evaluate.py"], text=True)
 acc = float(re.search(r"accuracy=(\d+\.\d+)", out).group(1))
